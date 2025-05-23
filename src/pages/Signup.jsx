@@ -50,7 +50,7 @@ export default function Signup() {
                   <Field.ErrorText>This field is required</Field.ErrorText>
                 </Field.Root>
 
-                <Button backgroundColor={"blue.500"} onClick={handleSignup}>sign Up</Button>
+                <Button backgroundColor={"blue.500"} onClick={handleSignup}>Sign Up</Button>
               </Flex>
             </form>
             <Flex gap="2" justifyContent="center" marginTop="10px">

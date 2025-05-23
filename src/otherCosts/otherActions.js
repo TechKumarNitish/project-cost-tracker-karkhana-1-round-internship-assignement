@@ -21,7 +21,8 @@ export const deleteOtherCostForUser = (uid, id) => async (dispatch) => {
   dispatch(deleteOtherCost(id));
 };
 
-export const updateOtherCostForUser = (uid, id, data) => async (dispatch) => {
+export const updateOtherCostForUser = (uid, id, data, setOpen) => async (dispatch) => {
   await updateDoc(doc(db, "users", uid, "otherCosts", id), data);
   dispatch(updateOtherCost({ id, ...data }));
+  setOpen(false);
 };

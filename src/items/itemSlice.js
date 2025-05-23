@@ -8,6 +8,7 @@ const itemSlice = createSlice({
     addItem: (state, action) => { state.push(action.payload); },
     deleteItem: (state, action) => state.filter(i => i.id !== action.payload),
     updateItem: (state, action) => {
+      console.log("updating item:", action.payload);
       const { id, ...rest } = action.payload;
       const idx = state.findIndex(i => i.id === id);
       if (idx !== -1) state[idx] = { ...state[idx], ...rest };

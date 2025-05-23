@@ -19,7 +19,9 @@ export const deleteItemForUser = (uid, id) => async (dispatch) => {
   dispatch(deleteItem(id));
 };
 
-export const updateItemForUser = (uid, id, data) => async (dispatch) => {
+export const updateItemForUser = (uid, id, data, setOpen) => async (dispatch) => {
+  console.log(uid, id, data)
   await updateDoc(doc(db, "users", uid, "items", id), data);
   dispatch(updateItem({ id, ...data }));
+  setOpen(false);
 };

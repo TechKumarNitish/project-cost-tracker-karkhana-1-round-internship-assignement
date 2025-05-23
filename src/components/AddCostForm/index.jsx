@@ -2,10 +2,11 @@ import { Button, Input, Stack } from "@chakra-ui/react";
 import { useState } from "react";
 
 export default function AddCostForm(props) {
-    const { placeholder, onAddCost } = props
+    const { placeholder, onAddCost, initialTitle=null, initialAmount=null } = props
     const { titlePlaceholder, amountPlaceholder } = placeholder;
-    const [title, setTitle] = useState("");
-    const [amount, setAmount] = useState(0);
+    const [title, setTitle] = useState(initialTitle);
+    const [amount, setAmount] = useState(initialAmount);
+    console.log(amount, title)
 
     const submitHanlder = (event) => {
         event.preventDefault();
@@ -26,14 +27,14 @@ export default function AddCostForm(props) {
 
     return <form onSubmit={submitHanlder} >
         <Input
-        marginBottom="10px"
+        marginBottom="10px" required
         type="text" placeholder={titlePlaceholder} name="title" value={title}  onChange={onChangeTitleHandler}/>
-        <Input marginBottom="10px"
-         type="number" placeholder={amountPlaceholder} value={amount}  onChange={onChangeAmountHandler}/>
+        <Input marginBottom="10px" required
+         type="number" placeholder={amountPlaceholder} value={amount}  onChange={onChangeAmountHandler} min={1}/>
         
         <Button type="submit" variant="subtle" color="blue.500" backgroundColor="blue.100"
          size="xs"
-        >Add Cost</Button>
+        >Add</Button>
         
     </form>
 }
