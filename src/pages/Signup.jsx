@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button, Input, Flex, Field, Heading, Text } from "@chakra-ui/react"
 import { registerUser, logoutUser } from "../redux/auth/authActions";
 import { useNavigate, Link } from "react-router-dom"
+import { IoArrowBackSharp } from "react-icons/io5";
 
 
 export default function Signup() {
@@ -26,8 +27,9 @@ export default function Signup() {
       <Flex direction="column" padding="20px" width="90%" maxWidth="350px" borderWidth="1px" borderRadius="8px" boxShadow="lg">
         {user ?
           <>
-            <p>Alread logged in!</p>
-            <Button onClick={handleLogout}>Logout</Button>
+          <Link to="/"><Text color="blue.600"><IoArrowBackSharp/></Text></Link>
+            <Heading  size="md" color="orange.600" marginBottom="10px" textAlign="center">Alread logged in!</Heading>
+            <Button size="xs"  onClick={handleLogout}>Logout</Button>
           </> :
           <>
             <Flex align={"center"} justify="center" marginBottom="20px">
