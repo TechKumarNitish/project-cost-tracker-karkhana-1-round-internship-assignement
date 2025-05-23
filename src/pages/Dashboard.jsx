@@ -49,13 +49,19 @@ export default function Dashboard() {
 
 
     return <Grid>
-        <GridItem colSpan={12} padding="20px" borderBottom="1px solid rgba(225, 232, 239, 0.81)" marginBottom="40px">
+        <GridItem colSpan={12} padding="20px" borderBottom="1px solid rgba(225, 232, 239, 0.81)" marginBottom="10px">
             <Flex justify="space-between" maxWidth="900px" margin="auto">
                 <Flex>
                     <Heading color="orange.500">Cost</Heading>
                     <Heading color="blue.500">Tracker</Heading>
                 </Flex>
                 <Button backgroundColor="blue.500" onClick={handleLogout}>Logout</Button>
+            </Flex>
+        </GridItem>
+        <GridItem colSpan={12} padding="20px" marginBottom="20px">
+            <Flex maxWidth="900px" margin="auto" align="center" gap="10px">
+                <Text color="blue.700">Welcome, </Text>
+                <Text color="blue.700" fontWeight="bold">{user?.email}</Text>
             </Flex>
         </GridItem>
 
