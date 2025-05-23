@@ -1,7 +1,7 @@
 # 💸 Project Cost Tracker 
 (https://project-cost-tracker-karkhana.netlify.app/login)
 
-A minimal React + Vite web app for tracking project expenses, built with **Redux**, **Chakra UI**, **Firebase (Auth + Firestore)**, **localStorage** persistence and **cost sorting** .
+A minimal ReactJs responsive web app for tracking project expenses, built with **Redux**, **Chakra UI**, **Firebase (Auth + Firestore)**, **localStorage** persistence and **cost sorting** .
 
 ---
 
