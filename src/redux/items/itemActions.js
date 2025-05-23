@@ -1,5 +1,5 @@
 import { collection, addDoc, getDocs, deleteDoc, updateDoc, doc } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import { setItems, addItem, deleteItem, updateItem } from "./itemSlice";
 
 export const fetchItems = (uid) => async (dispatch) => {

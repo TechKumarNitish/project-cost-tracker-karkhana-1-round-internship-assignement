@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Button, Input, Text, Field, Flex, Heading } from "@chakra-ui/react"
-import { logoutUser, loginUser } from "../auth/authActions";
+import { logoutUser, loginUser } from "../redux/auth/authActions";
 import { useNavigate, Link } from "react-router-dom"
 
 

@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../firebase";
+import { auth, db } from "../../firebase";
 import { login, logout } from "./authSlice";
 
 export const registerUser = (email, password, navigate, userData = {}) => async (dispatch) => {

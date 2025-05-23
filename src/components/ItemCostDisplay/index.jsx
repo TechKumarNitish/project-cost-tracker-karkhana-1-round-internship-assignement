@@ -1,11 +1,11 @@
 import { Heading, Table, Button, Input } from "@chakra-ui/react"
 import { useDispatch, useSelector } from "react-redux"
-import { deleteItemForUser } from "../../items/itemActions"
+import { deleteItemForUser } from "../../redux/items/itemActions"
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { GoSortAsc, GoSortDesc } from "react-icons/go";
 import { useState } from "react";
 import Modal from "../Modal";
-import { updateItemForUser } from "../../items/itemActions";
+import { updateItemForUser } from "../../redux/items/itemActions";
 
 export default function ItemCostDisplay() {
 

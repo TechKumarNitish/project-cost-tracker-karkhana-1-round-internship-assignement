@@ -1,11 +1,11 @@
 import { Heading, Table, Button, Input } from "@chakra-ui/react"
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { deleteOtherCostForUser } from "../../otherCosts/otherActions"
+import { deleteOtherCostForUser } from "../../redux/otherCosts/otherActions"
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { GoSortAsc, GoSortDesc } from "react-icons/go";
 import Modal from "../Modal";
-import { updateOtherCostForUser } from "../../otherCosts/otherActions";
+import { updateOtherCostForUser } from "../../redux/otherCosts/otherActions";
 
 export default function OtherCostDisplay() {
 

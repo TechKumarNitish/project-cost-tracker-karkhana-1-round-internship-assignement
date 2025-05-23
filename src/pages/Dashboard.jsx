@@ -1,10 +1,10 @@
 import { Button, Heading, Grid, GridItem, Flex, Text } from '@chakra-ui/react'
-import { logoutUser } from "../auth/authActions"
+import { logoutUser } from "../redux/auth/authActions"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
-import { addItemForUser, fetchItems } from "../items/itemActions"
-import { addOtherCostForUser, fetchOtherCosts } from "../otherCosts/otherActions"
+import { addItemForUser, fetchItems } from "../redux/items/itemActions"
+import { addOtherCostForUser, fetchOtherCosts } from "../redux/otherCosts/otherActions"
 import AddItemCost from "../components/AddItemCost"
 import AddOtherCost from "../components/AddOtherCost"
 import ItemCostDisplay from "../components/ItemCostDisplay"
