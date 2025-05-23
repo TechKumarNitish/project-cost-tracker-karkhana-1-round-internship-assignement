@@ -1,16 +1,11 @@
 import { Heading, Table, Button, Input } from "@chakra-ui/react"
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from 'react-router-dom'
-import { fetchItems } from "../../items/itemActions"
 import { deleteItemForUser } from "../../items/itemActions"
 import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { GoSortAsc, GoSortDesc } from "react-icons/go";
 import { useState } from "react";
 import Modal from "../Modal";
-import AddItemCost from "../AddItemCost";
 import { updateItemForUser } from "../../items/itemActions";
-import AddCostForm from "../AddCostForm";
 
 export default function ItemCostDisplay() {
 
@@ -27,11 +22,6 @@ export default function ItemCostDisplay() {
     const [itemName, setItemName] = useState("");
     const [itemCost, setItemCost] = useState(0);
     const [sortOrder, setSortOrder] = useState(0);
-
-
-    // useEffect(() => {
-    //     dispatch(fetchItems(user.uid))
-    // });
 
     const handleDeleteItem = (id) => {
         dispatch(deleteItemForUser(user.uid, id))
@@ -50,12 +40,10 @@ export default function ItemCostDisplay() {
     }
 
     const sortData = (items) => {
-        console.log("sorting:", items)
         return [...items].sort((a, b) => sortOrder == 0 ? a.cost - b.cost : b.cost - a.cost)
 
     }
 
-    console.log("item:", items)
     return (
         <>
             <Heading color={"blue.600"}>Item Cost</Heading>

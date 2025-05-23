@@ -23,14 +23,9 @@ export default function OtherCostDisplay() {
     const [amount, setAmount] = useState(0);
     const [sortOrder, setSortOrder] = useState(0);
 
-    // useEffect(() => {
-    //     dispatch(fetchItems(user.uid))
-    // });
-
     const handleDeleteItem = (id) => {
         dispatch(deleteOtherCostForUser(user.uid, id))
     }
-    console.log("item:", otherCosts)
 
     const handleEdit = (item) => {
         setDescription(item.description);
@@ -45,7 +40,6 @@ export default function OtherCostDisplay() {
     }
 
     const sortData = (items) => {
-        console.log("sorting:", items)
         return [...items].sort((a, b) => sortOrder == 0 ? a.amount - b.amount : b.amount - a.amount)
 
     }

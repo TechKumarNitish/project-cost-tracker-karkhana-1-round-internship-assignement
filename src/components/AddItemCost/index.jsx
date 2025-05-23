@@ -1,8 +1,6 @@
 
 import AddCostForm from "../AddCostForm";
 
-
-
 export default function AddItemCost(props) {
     const{ onAddCost } = props
     const placeholder = {

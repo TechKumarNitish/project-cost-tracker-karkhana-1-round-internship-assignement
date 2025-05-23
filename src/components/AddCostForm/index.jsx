@@ -1,4 +1,4 @@
-import { Button, Input, Stack } from "@chakra-ui/react";
+import { Button, Input } from "@chakra-ui/react";
 import { useState } from "react";
 
 export default function AddCostForm(props) {
@@ -6,14 +6,12 @@ export default function AddCostForm(props) {
     const { titlePlaceholder, amountPlaceholder } = placeholder;
     const [title, setTitle] = useState(initialTitle);
     const [amount, setAmount] = useState(initialAmount);
-    console.log(amount, title)
 
     const submitHanlder = (event) => {
         event.preventDefault();
         onAddCost(title, amount);
         setTitle("");
         setAmount(0);
-        console.log(title, amount);
     }
 
     const onChangeTitleHandler = (event) => {
