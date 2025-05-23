@@ -23,7 +23,7 @@ export default function Login() {
   }
 
   return (
-    <Flex style={{ padding: "20px" }} justify={"center"} align="center" height="100vh" width="100vw" backgroundColor="gray.100">
+    <Flex style={{ padding: "20px" }} justify={"center"} align="center" height="100vh" width="100vw" backgroundColor="gray.1">
       <Flex direction="column" padding="20px" width="90%" maxWidth="350px" borderWidth="1px" borderRadius="8px" boxShadow="lg">
         {user ?
           <>
@@ -34,8 +34,8 @@ export default function Login() {
           <>
 
             <Flex align={"center"} justify="center" marginBottom="20px">
-              <Heading color="orange.500">Cost</Heading>
-              <Heading color="blue.500">Tracker</Heading>
+              <Heading color="orange.500"><Link to="/">Cost</Link></Heading>
+              <Heading color="blue.500"><Link to="/">Tracker</Link></Heading>
             </Flex>
 
             <form>

@@ -23,18 +23,20 @@ export default function Signup() {
   }
 
   return (
-    <Flex style={{ padding: "20px" }} justify={"center"} align="center" height="100vh" width="100vw" backgroundColor="gray.100">
+    <Flex style={{ padding: "20px" }} justify={"center"} align="center" height="100vh" width="100vw" backgroundColor="gray.1">
       <Flex direction="column" padding="20px" width="90%" maxWidth="350px" borderWidth="1px" borderRadius="8px" boxShadow="lg">
         {user ?
           <>
-          <Link to="/"><Text color="blue.600"><IoArrowBackSharp/></Text></Link>
-            <Heading  size="md" color="orange.600" marginBottom="10px" textAlign="center">Alread logged in!</Heading>
-            <Button size="xs"  onClick={handleLogout}>Logout</Button>
+            <Link to="/"><Text color="blue.600"><IoArrowBackSharp /></Text></Link>
+            <Heading size="md" color="orange.600" marginBottom="10px" textAlign="center">Alread logged in!</Heading>
+            <Button size="xs" onClick={handleLogout}>Logout</Button>
           </> :
           <>
             <Flex align={"center"} justify="center" marginBottom="20px">
-              <Heading color="orange.500">Cost</Heading>
-              <Heading color="blue.500">Tracker</Heading>
+              
+                <Heading color="orange.500"><Link to="/">Cost</Link></Heading>
+                <Heading color="blue.500"><Link to="/">Tracker</Link></Heading>
+              
             </Flex>
             <form>
               <Flex gap="4" direction={"column"}>
