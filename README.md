@@ -1,5 +1,5 @@
 # 💸 Project Cost Tracker 
-(https://project-cost-tracker-karkhana.netlify.app/login)
+(https://project-cost-tracker-karkhana.netlify.app)
 
 A minimal ReactJs responsive web app for tracking project expenses, built with **Redux**, **Chakra UI**, **Firebase (Auth + Firestore)**, **localStorage** persistence and **cost sorting** .
 
