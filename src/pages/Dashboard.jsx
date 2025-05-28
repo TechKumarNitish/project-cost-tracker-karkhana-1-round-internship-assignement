@@ -61,7 +61,7 @@ export default function Dashboard() {
     const calculateTotalCost = () => {
         const totalItemCost = items.reduce((acc, item) => acc + parseFloat(item.cost), 0);
         const totalOtherCost = otherCosts.reduce((acc, cost) => acc + parseFloat(cost.amount), 0);
-        return totalItemCost + totalOtherCost;
+        return totalItemCost + totalOtherCost || 0;
     }
 
 
