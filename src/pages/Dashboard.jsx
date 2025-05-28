@@ -9,6 +9,8 @@ import AddItemCost from "../components/AddItemCost"
 import AddOtherCost from "../components/AddOtherCost"
 import ItemCostDisplay from "../components/ItemCostDisplay"
 import OtherCostDisplay from "../components/OtherCostDisplay"
+import { apiStatusConstants } from "../apiStatusConstant"
+import { toaster } from "../components/ui/toaster"
 
 
 
@@ -19,6 +21,19 @@ export default function Dashboard() {
     const { user } = useSelector(state => state.auth);
     const items = useSelector(state => state.items);
     const otherCosts = useSelector(state => state.otherCosts);
+    const [status, setStatus] = useState(apiStatusConstants.initial);
+
+    const updateApiStatus =(path)=> (newStatus, newMsg) => {
+
+        setStatus(newStatus);
+        toaster.create({
+            title: newMsg,
+            type: newStatus.toLowerCase(),
+            duration: 1000,
+        });
+        if (path && newStatus === apiStatusConstants.success)
+            navigate(path);
+    }
 
     useEffect(() => {
         if (!user) {
@@ -30,15 +45,17 @@ export default function Dashboard() {
     }, [user, navigate]);
 
     const handleLogout = () => {
-        dispatch(logoutUser(navigate))
+        dispatch(logoutUser(updateApiStatus("/login")))
     }
 
     const handleAddItemCost = (itemName, itemCost) => {
-        dispatch(addItemForUser(user.uid, itemName, itemCost))
+        setStatus(apiStatusConstants.loading)
+        dispatch(addItemForUser(user.uid, itemName, itemCost, updateApiStatus(null)))
     }
 
     const handleAddOtherCost = (description, amount) => {
-        dispatch(addOtherCostForUser(user.uid, description, amount))
+        setStatus(apiStatusConstants.loading);
+        dispatch(addOtherCostForUser(user.uid, description, amount, updateApiStatus(null)))
     }
 
     const calculateTotalCost = () => {
@@ -93,8 +110,8 @@ export default function Dashboard() {
                 <Flex>
                     {
                         AddCostFormType == "ITEM" ?
-                            <AddItemCost onAddCost={handleAddItemCost} /> :
-                            <AddOtherCost onAddCost={handleAddOtherCost} />
+                            <AddItemCost onAddCost={handleAddItemCost} status={status}/> :
+                            <AddOtherCost onAddCost={handleAddOtherCost} status={status}/>
                     }
                 </Flex>
 

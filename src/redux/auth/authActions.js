@@ -2,20 +2,39 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } f
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import { login, logout } from "./authSlice";
+import { apiStatusConstants } from "../../apiStatusConstant";
 
-export const registerUser = (email, password, navigate, userData = {}) => async (dispatch) => {
+export const registerUser = (email, password, updateStatus, userData = {}) => async (dispatch) => {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         await setDoc(doc(db, "users", res.user.uid), userData);
         dispatch(login(res.user));
-        navigate("/");
-        
-    } catch (e) {
-        console.error("Error registering user");
+        updateStatus(apiStatusConstants.success, "Registration successful!");
+    } catch (error) {
+        let msg = null;
+        switch (error.code) {
+            case 'auth/network-request-failed':
+                msg = "🚫 Network Error: Please check your internet connection.";
+                break;
+            case 'auth/email-already-in-use':
+                msg = "This email is already registered. Try logging in or use a different email.";
+                break;
+            case 'auth/weak-password':
+                msg="Password is too weak. Please use at least 6 characters with a mix of letters, numbers, or symbols."
+                break;
+            case 'auth/invalid-email':
+                msg = "Invalid email format. Please enter a valid email address.";
+                break;            
+            default:
+                msg = `❗ Unexpected Error [${error.code}]:`, error.message;
+                break;
+        }
+        console.error("Error in registering user: ", error.code);
+        updateStatus(apiStatusConstants.error, msg);
     }
 };
 
-export const loginUser = (email, password, navigate) => async (dispatch) => {
+export const loginUser = (email, password, updateStatus) => async (dispatch) => {
     try {
         const res = await signInWithEmailAndPassword(auth, email, password);
         const sanitizedUser = {
@@ -24,20 +43,33 @@ export const loginUser = (email, password, navigate) => async (dispatch) => {
             displayName: res.user.displayName,
             photoURL: res.user.photoURL,
         };
-        
+
         dispatch(login(sanitizedUser));
-        navigate("/");
-    } catch (e) {
-        console.log("Error logging out");
+        updateStatus(apiStatusConstants.success, "Login successful!");
+    } catch (error) {
+        let msg = null;
+        switch (error.code) {
+            case 'auth/network-request-failed':
+                msg = "🚫 Network Error: Please check your internet connection.";
+                break;
+            case 'auth/invalid-credential':
+                msg = "🔐 Credential Error: Invalid email or password.";
+                break;
+            default:
+                msg = `❗ Unexpected Error [${error.code}]:`, error.message;
+                break;
+        }
+        console.error("Error logging in: ", error.code);
+        updateStatus(apiStatusConstants.error, msg);
     }
 };
 
-export const logoutUser = (navigate) => async (dispatch) => {
+export const logoutUser = (updateStatus) => async (dispatch) => {
     try {
         await signOut(auth);
         dispatch(logout());
-        navigate("/login")
+        updateStatus(apiStatusConstants.success, "Logout successful!");
     } catch (e) {
-        console.log("Error logging out");
+        updateStatus(apiStatusConstants.error, "Something went wrong while logging out. Please try again later.");
     }
 };

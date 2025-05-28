@@ -9,6 +9,6 @@ export default function AddItemCost(props) {
     }
 
     return <div>
-        <AddCostForm placeholder={placeholder} onAddCost={onAddCost}/>
+        <AddCostForm placeholder={placeholder} onAddCost={onAddCost} status={props.status}/>
     </div>
 }

@@ -5,6 +5,10 @@ import { Button, Input, Text, Field, Flex, Heading } from "@chakra-ui/react"
 import { logoutUser, loginUser } from "../redux/auth/authActions";
 import { useNavigate, Link } from "react-router-dom"
 import { IoArrowBackSharp } from "react-icons/io5";
+import { BeatLoader } from "react-spinners"
+import { apiStatusConstants } from "../apiStatusConstant";
+import { toaster } from "../components/ui/toaster";
+
 
 
 export default function Login() {
@@ -13,13 +17,26 @@ export default function Login() {
   const { user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [status, setStatus] = useState(apiStatusConstants.initial);
+
+  const updateApiStatus=(path)=>(newStatus, newMsg)=>{
+    setStatus(newStatus);
+    toaster.create({
+      title: newMsg,
+      type:newStatus.toLowerCase(),
+      duration: 2000,
+    });
+    if(newStatus === apiStatusConstants.success) 
+    navigate(path );
+  }
 
   const handleLogin = async () => {
-    dispatch(loginUser(email, password, navigate));
+    setStatus(apiStatusConstants.loading);
+    dispatch(loginUser(email, password, updateApiStatus("/")));
   };
 
   const handleLogout = async () => {
-    dispatch(logoutUser(navigate))
+    dispatch(logoutUser(updateApiStatus("/login")));
   }
 
   return (
@@ -53,7 +70,7 @@ export default function Login() {
                   <Field.ErrorText>This field is required</Field.ErrorText>
                 </Field.Root>
 
-                <Button backgroundColor={"blue.500"} onClick={handleLogin}>Log In</Button>
+                <Button loading={apiStatusConstants.loading==status} disabled={apiStatusConstants.loading==status} backgroundColor={"blue.500"} onClick={handleLogin} spinner={<BeatLoader size={8} color="white" />}>Log In</Button>
               </Flex>
             </form>
             <Flex gap="2" justifyContent="center" marginTop="10px">

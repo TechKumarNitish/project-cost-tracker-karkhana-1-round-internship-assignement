@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import { toaster } from "../components/ui/toaster";
 import { Button, Input, Flex, Field, Heading, Text } from "@chakra-ui/react"
 import { registerUser, logoutUser } from "../redux/auth/authActions";
 import { useNavigate, Link } from "react-router-dom"
 import { IoArrowBackSharp } from "react-icons/io5";
+import { BeatLoader } from "react-spinners"
+import { apiStatusConstants } from "../apiStatusConstant";
 
 
 export default function Signup() {
@@ -13,13 +15,26 @@ export default function Signup() {
   const { user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [status, setStatus] = useState(apiStatusConstants.initial);
+
+  const updateApiStatus =(path)=> (newStatus, newMsg) => {
+    setStatus(newStatus);
+    toaster.create({
+      title: newMsg,
+      type:newStatus.toLowerCase(),
+      duration: 2000,
+    });
+    if (path && newStatus === apiStatusConstants.success)
+      navigate(path);
+  }
 
   const handleSignup = async () => {
-    dispatch(registerUser(email, password, navigate));
+    setStatus(apiStatusConstants.loading);
+    dispatch(registerUser(email, password, updateApiStatus("/")));
   };
 
   const handleLogout = async () => {
-    dispatch(logoutUser(navigate))
+    dispatch(logoutUser(updateApiStatus("/login")));
   }
 
   return (
@@ -33,10 +48,10 @@ export default function Signup() {
           </> :
           <>
             <Flex align={"center"} justify="center" marginBottom="20px">
-              
-                <Heading color="orange.500"><Link to="/">Cost</Link></Heading>
-                <Heading color="blue.500"><Link to="/">Tracker</Link></Heading>
-              
+
+              <Heading color="orange.500"><Link to="/">Cost</Link></Heading>
+              <Heading color="blue.500"><Link to="/">Tracker</Link></Heading>
+
             </Flex>
             <form>
               <Flex gap="4" direction={"column"}>
@@ -53,7 +68,7 @@ export default function Signup() {
                   <Field.ErrorText>This field is required</Field.ErrorText>
                 </Field.Root>
 
-                <Button backgroundColor={"blue.500"} onClick={handleSignup}>Sign Up</Button>
+                <Button loading={apiStatusConstants.loading == status} disabled={apiStatusConstants.loading == status} backgroundColor={"blue.500"} onClick={handleSignup} spinner={<BeatLoader size={8} color="white" />}>Sign Up</Button>
               </Flex>
             </form>
             <Flex gap="2" justifyContent="center" marginTop="10px">

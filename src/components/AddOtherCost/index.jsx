@@ -8,6 +8,6 @@ export default function AddOtherCost(props) {
     }
 
     return <div>
-        <AddCostForm placeholder={placeholder} onAddCost={onAddCost}/>
+        <AddCostForm placeholder={placeholder} onAddCost={onAddCost} status={props.status}/>
     </div>
 }

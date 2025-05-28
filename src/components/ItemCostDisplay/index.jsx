@@ -6,6 +6,9 @@ import { GoSortAsc, GoSortDesc } from "react-icons/go";
 import { useState } from "react";
 import Modal from "../Modal";
 import { updateItemForUser } from "../../redux/items/itemActions";
+import { apiStatusConstants } from "../../apiStatusConstant";
+import { toaster } from "../ui/toaster";
+import { BeatLoader } from "react-spinners"
 
 export default function ItemCostDisplay() {
 
@@ -22,9 +25,21 @@ export default function ItemCostDisplay() {
     const [itemName, setItemName] = useState("");
     const [itemCost, setItemCost] = useState(0);
     const [sortOrder, setSortOrder] = useState(0);
+    const [status, setStatus] = useState(apiStatusConstants.initial);
+
+    const updateApiStatus = (path) => (newStatus, newMsg) => {
+        setStatus(newStatus);
+        toaster.create({
+            title: newMsg,
+            type: newStatus.toLowerCase(),
+            duration: 1000,
+        });
+        if (path && newStatus === apiStatusConstants.success)
+            navigate(path);
+    }
 
     const handleDeleteItem = (id) => {
-        dispatch(deleteItemForUser(user.uid, id))
+        dispatch(deleteItemForUser(user.uid, id, updateApiStatus(null)))
     }
 
     const handleEdit = (item) => {
@@ -36,7 +51,8 @@ export default function ItemCostDisplay() {
 
     const updateHanlder = (e) => {
         e.preventDefault();
-        dispatch(updateItemForUser(user.uid, id, { name: itemName, cost: itemCost }, setOpen));
+        setStatus(apiStatusConstants.loading);
+        dispatch(updateItemForUser(user.uid, id, { name: itemName, cost: itemCost }, setOpen, updateApiStatus(null)));
     }
 
     const sortData = (items) => {
@@ -87,10 +103,13 @@ export default function ItemCostDisplay() {
                     <Input marginBottom="10px"
                         type="number" placeholder={placeholder.amountPlaceholder}
                         name="itemCost" value={itemCost} onChange={(e) => setItemCost(e.target.value)} />
-
-                    <Button type="submit" variant="subtle" color="blue.500" backgroundColor="blue.100"
-                        size="xs"
-                    >Update</Button>
+                    <Button
+                        type="submit" variant="subtle" color="blue.500" backgroundColor="blue.100" size="xs"
+                        loading={apiStatusConstants.loading == status}
+                        disabled={apiStatusConstants.loading == status}
+                        spinner={<BeatLoader size={8} color="white" />}>
+                        Update
+                    </Button>
 
                 </form>
             </Modal>

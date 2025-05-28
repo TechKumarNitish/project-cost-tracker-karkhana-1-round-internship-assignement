@@ -6,6 +6,9 @@ import { MdDeleteForever, MdModeEdit } from "react-icons/md";
 import { GoSortAsc, GoSortDesc } from "react-icons/go";
 import Modal from "../Modal";
 import { updateOtherCostForUser } from "../../redux/otherCosts/otherActions";
+import { apiStatusConstants } from "../../apiStatusConstant";
+import { toaster } from "../ui/toaster";
+import { BeatLoader } from "react-spinners"
 
 export default function OtherCostDisplay() {
 
@@ -22,9 +25,21 @@ export default function OtherCostDisplay() {
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState(0);
     const [sortOrder, setSortOrder] = useState(0);
+    const [status, setStatus] = useState(apiStatusConstants.initial);
+
+    const updateApiStatus = (path) => (newStatus, newMsg) => {
+        setStatus(newStatus);
+        toaster.create({
+            title: newMsg,
+            type: newStatus.toLowerCase(),
+            duration: 1000,
+        });
+        if (path && newStatus === apiStatusConstants.success)
+            navigate(path);
+    }
 
     const handleDeleteItem = (id) => {
-        dispatch(deleteOtherCostForUser(user.uid, id))
+        dispatch(deleteOtherCostForUser(user.uid, id, updateApiStatus(null)))
     }
 
     const handleEdit = (item) => {
@@ -36,7 +51,8 @@ export default function OtherCostDisplay() {
 
     const updateHanlder = (e) => {
         e.preventDefault();
-        dispatch(updateOtherCostForUser(user.uid, id, { description, amount }, setOpen));
+        setStatus(apiStatusConstants.loading);
+        dispatch(updateOtherCostForUser(user.uid, id, { description, amount }, setOpen, updateApiStatus(null)));
     }
 
     const sortData = (items) => {
@@ -85,11 +101,16 @@ export default function OtherCostDisplay() {
                         marginBottom="10px" required
                         type="text" placeholder={placeholder.titlePlaceholder} name="description" value={description} onChange={(e) => setDescription(e.target.value)} />
                     <Input marginBottom="10px" required
-                        type="number" placeholder={placeholder.amountPlaceholder} value={amount} onChange={(e) => setAmount(e.target.value)} name="amount" min={1}/>
+                        type="number" placeholder={placeholder.amountPlaceholder} value={amount} onChange={(e) => setAmount(e.target.value)} name="amount" min={1} />
 
-                    <Button type="submit" variant="subtle" color="blue.500" backgroundColor="blue.100"
-                        size="xs"
-                    >Update</Button>
+
+                    <Button
+                        type="submit" variant="subtle" color="blue.500" backgroundColor="blue.100" size="xs"
+                        loading={apiStatusConstants.loading == status}
+                        disabled={apiStatusConstants.loading == status}
+                        spinner={<BeatLoader size={8} color="white" />}>
+                        Update
+                    </Button>
 
                 </form>
             </Modal>
